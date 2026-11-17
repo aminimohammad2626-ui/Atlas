@@ -26,7 +26,7 @@
       "id": "R2-04",
       "desc": "embedded data has users with hashed passwords (no plaintext)",
       "ok": true,
-      "detail": "{\"id\":\"usr-mwjcqmlj-x1l7hb\",\"seq\":1,\"username\":\"admin\",\"displayName\":\"مدیر سیستم\",\"salt\":\"s-mwjcqmk8"
+      "detail": "{\"id\":\"usr-mwkjeqcw-h6msgm\",\"seq\":1,\"username\":\"admin\",\"displayName\":\"مدیر سیستم\",\"salt\":\"s-mwkjeqbh"
     },
     {
       "id": "R2-04b",
@@ -86,13 +86,13 @@
       "id": "R2-12",
       "desc": "restored dates are canonical Gregorian ISO",
       "ok": true,
-      "detail": "{\"start\":\"2026-10-17\",\"end\":\"2027-01-15\",\"tasks\":9}"
+      "detail": "{\"start\":\"2026-10-18\",\"end\":\"2027-01-16\",\"tasks\":9}"
     },
     {
       "id": "R2-13",
       "desc": "dates consistent after language switch (same underlying date)",
       "ok": true,
-      "detail": "2026-10-17 vs 1405/07/25"
+      "detail": "2026-10-18 vs 1405/07/26"
     },
     {
       "id": "R2-13b",

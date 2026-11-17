@@ -179,6 +179,13 @@ const Employees = {
 const Users = {
   create(data) {
     Perms.assert('users', 'create');
+    return this._createValidated(data);
+  },
+  createFirstAdmin(data) {
+    if (Store.state.users.length) throw new Error('permDenied');
+    return this._createValidated(data);
+  },
+  _createValidated(data) {
     const un = String(data.username || '').trim().toLowerCase();
     if (!un || !/^[a-z0-9.]{3,32}$/.test(un)) throw new Error(t('usernameRules'));
     if (Store.state.users.some(u => u.username.toLowerCase() === un)) throw new Error(t('usernameTaken'));

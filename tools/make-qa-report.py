@@ -120,6 +120,12 @@ DEFECTS = [
      'Backup serializer copied core collections only.',
      'Backup.create() now clones state.activePatchPayloads into the backup and counts it in the data inventory.',
      'Round 5: R5-11 pass (restore into clean instance preserves data + patch payload + schema 2; login works).'),
+    ('DEF-08', 'First-run setup always failed with "permDenied"; manual admin account could not be created',
+     'Critical', 'Auth / UI / Users (70-ui.js, 40-models-org.js)',
+     'Open a fresh Atlas.html, fill the Initial Setup form (username, name, password), press "Setup System".',
+     'The setup handler called Users.create(), which starts with Perms.assert("users", "create"); during first-run no user is logged in, so the check always failed. The automated rounds exercised only the demo-data seed path, which bypasses the check, so the defect was missed.',
+     'Added Users.createFirstAdmin(data): a bootstrap path that skips the pre-auth permission check but is hard-guarded (throws permDenied if any user already exists, so it cannot be abused on an initialized system) and keeps all validation (username rules, uniqueness, password length, salted hashing). Setup errors are now translated via t(ex.message).',
+     'Browser verification: setup creates the admin (hashed password), re-login succeeds, guard blocks createFirstAdmin once users exist; full regression 120/120 pass.'),
 ]
 
 FEATURES = [

@@ -318,11 +318,11 @@ const UI = {
       if (pw !== pw2) { err.textContent = t('passwordMismatch'); return; }
       try {
         const adminRole = Store.state.roles.find(r => r.key === 'role_admin') || Store.state.roles[0];
-        Users.create({ username: this.fv(setupForm, 'username'), displayName: this.fv(setupForm, 'displayName'), password: pw, roles: [adminRole.id] });
+        Users.createFirstAdmin({ username: this.fv(setupForm, 'username'), displayName: this.fv(setupForm, 'displayName'), password: pw, roles: [adminRole.id] });
         Store.persist();
         this.toast(t('savedOk'), 'success');
         this.render();
-      } catch (ex) { err.textContent = ex.message; }
+      } catch (ex) { err.textContent = t(ex.message); }
     });
   }
 };

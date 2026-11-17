@@ -44,13 +44,13 @@
    "id": "R4-07",
    "desc": "switch FA->EN: LTR, lang=en, stored ISO date unchanged",
    "ok": true,
-   "detail": "{\"dir\":\"ltr\",\"lang\":\"en\",\"taskDue\":\"2026-10-27\",\"navText\":\"MAIN\\n📊\\nDashboard\\n📋\\nMy tasks\\n📁\\nProject\"}"
+   "detail": "{\"dir\":\"ltr\",\"lang\":\"en\",\"taskDue\":\"2026-10-28\",\"navText\":\"MAIN\\n📊\\nDashboard\\n📋\\nMy tasks\\n📁\\nProject\"}"
   },
   {
    "id": "R4-08",
    "desc": "EN mode renders Gregorian format of stored date",
    "ok": true,
-   "detail": "{\"iso\":\"2026-10-27\",\"text\":\"2026-10-27\",\"bodyHas\":true}"
+   "detail": "{\"iso\":\"2026-10-28\",\"text\":\"2026-10-28\",\"bodyHas\":true}"
   },
   {
    "id": "R4-09",
@@ -74,7 +74,7 @@
    "id": "R4-12",
    "desc": "FA mode renders Jalali format of same stored date",
    "ok": true,
-   "detail": "{\"text\":\"1405/08/05\",\"bodyHas\":true}"
+   "detail": "{\"text\":\"1405/08/06\",\"bodyHas\":true}"
   },
   {
    "id": "R4-13",

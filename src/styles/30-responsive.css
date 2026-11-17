@@ -1,0 +1,76 @@
+/* ===== Responsive & mobile ===== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .content { padding: 14px; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid .span-2 { grid-column: span 1; }
+  .kv { grid-template-columns: 110px 1fr; }
+
+  .hamburger { display: inline-flex; }
+  .sidebar {
+    position: fixed; inset-block: 0; inset-inline-start: 0;
+    transform: translateX(105%);
+  }
+  html[dir="ltr"] .sidebar { transform: translateX(-105%); }
+  html[dir="rtl"] .sidebar { transform: translateX(105%); }
+  .sidebar.open { transform: translateX(0); box-shadow: var(--shadow-lg); }
+
+  /* Classic theme mobile: nav becomes vertically scrollable row */
+  html[data-theme="classic"] .sidebar { position: sticky; transform: none; }
+  html[data-theme="classic"] .nav { overflow-x: auto; flex-wrap: nowrap; }
+  html[data-theme="classic"] .nav a { flex-shrink: 0; }
+
+  .content { padding: 12px 10px 90px; }
+  .topbar { padding: 0 10px; }
+  .topbar .save-indicator span.label { display: none; }
+
+  /* tables -> horizontally scrollable, sticky header */
+  .table-wrap { -webkit-overflow-scrolling: touch; }
+
+  .modal-overlay { padding: 2vh 8px; align-items: flex-start; }
+  .modal-body { max-height: 68vh; }
+  .btn { min-height: 40px; }
+  .btn-sm { min-height: 32px; }
+  .filter-bar .field { max-width: none; }
+  #toast-root { inset-inline: 12px; bottom: 12px; max-width: none; }
+
+  /* bottom quick-nav */
+  .mobile-tabbar {
+    position: fixed; bottom: 0; inset-inline: 0; z-index: 45;
+    background: var(--surface); border-top: 1px solid var(--border);
+    display: flex; justify-content: space-around;
+    padding: 4px 2px calc(4px + env(safe-area-inset-bottom));
+  }
+  .mobile-tabbar a {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    font-size: .66rem; color: var(--muted); padding: 5px 8px; border-radius: 8px; min-width: 56px;
+  }
+  .mobile-tabbar a.active { color: var(--accent); }
+  .mobile-tabbar .nav-icon { font-size: 1.15rem; }
+}
+@media (min-width: 769px) {
+  .mobile-tabbar { display: none; }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  body { font-size: 13.5px; }
+  .stat-card .stat-value { font-size: 1.3rem; }
+  .btn { padding: 6px 10px; }
+  .content { padding: 10px 8px 90px; }
+}
+
+/* Print */
+@media print {
+  .sidebar, .topbar, .btn, .mobile-tabbar, #toast-root { display: none !important; }
+  .content { padding: 0; max-width: none; }
+  body { background: #fff; color: #000; }
+}

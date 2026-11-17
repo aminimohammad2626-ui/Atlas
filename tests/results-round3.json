@@ -1,0 +1,128 @@
+{
+  "name": "Round 3 — Permissions & Security",
+  "pass": 20,
+  "fail": 0,
+  "pageErrors": [],
+  "results": [
+    {
+      "id": "R3-01",
+      "desc": "lifecycle: employee can view but not create",
+      "ok": true,
+      "detail": "{\"step2_empView\":true,\"step2_empCreate\":false,\"step4_pmCreate\":true,\"step4_pmDelete\":true,\"step6_downgrade\":true,\"step6_stillViews\":true}"
+    },
+    {
+      "id": "R3-02",
+      "desc": "lifecycle: PM role grants create/delete",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R3-03",
+      "desc": "lifecycle: downgrade removes elevated perms",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R3-04",
+      "desc": "role persists correctly after reload",
+      "ok": true,
+      "detail": "{\"key\":\"role_emp\",\"canCreate\":false}"
+    },
+    {
+      "id": "R3-05",
+      "desc": "last admin deletion blocked",
+      "ok": true,
+      "detail": "حذف یا تنزل آخرین مدیر فعال مجاز نیست"
+    },
+    {
+      "id": "R3-06",
+      "desc": "last admin demotion blocked",
+      "ok": true,
+      "detail": "حذف یا تنزل آخرین مدیر فعال مجاز نیست"
+    },
+    {
+      "id": "R3-07",
+      "desc": "employee nav hides admin views",
+      "ok": true,
+      "detail": "[\"dashboard\",\"myTasks\",\"projects\",\"tasks\",\"calendar\",\"reports\",\"employees\",\"org\"]"
+    },
+    {
+      "id": "R3-08",
+      "desc": "employee cannot create users via direct API",
+      "ok": true,
+      "detail": "{\"createUser\":\"permDenied\",\"createProject\":\"permDenied\",\"deleteOtherTask\":\"permDenied\",\"elevateSelf\":\"permDenied\",\"readAudit\":\"permDenied\",\"installPatch\":\"permDenied\"}"
+    },
+    {
+      "id": "R3-09",
+      "desc": "employee cannot create projects",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R3-10",
+      "desc": "employee cannot delete others' tasks",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R3-11",
+      "desc": "employee cannot self-elevate to admin",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R3-12",
+      "desc": "employee cannot read audit log or install patches",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R3-13",
+      "desc": "employee can report progress on assigned task",
+      "ok": true,
+      "detail": "OK"
+    },
+    {
+      "id": "R3-14",
+      "desc": "disabled account cannot login",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R3-15",
+      "desc": "permission simulator matches actual authorization engine",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R3-16",
+      "desc": "override grant elevates permission",
+      "ok": true,
+      "detail": "{\"before\":false,\"afterGrant\":true,\"afterDeny\":false}"
+    },
+    {
+      "id": "R3-17",
+      "desc": "override deny wins over role",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R3-18",
+      "desc": "audit log records actions without secrets",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R3-19",
+      "desc": "no plaintext passwords in state; all hashed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R3-20",
+      "desc": "logout clears session",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

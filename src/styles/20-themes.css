@@ -1,0 +1,110 @@
+/* ===== Themes ===== */
+
+/* --- Simple (default): light, minimal --- */
+html[data-theme="simple"] {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-2: #f0f2f5;
+  --hover: #f0f4ff;
+  --border: #e3e6ea;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-2: #7c3aed;
+  --accent-soft: #dbeafe;
+  --success: #15803d;
+  --success-soft: #dcfce7;
+  --warning: #b45309;
+  --warning-strong: #92400e;
+  --warning-soft: #fef3c7;
+  --danger: #dc2626;
+  --danger-soft: #fee2e2;
+  --sidebar-bg: #ffffff;
+  --sidebar-text: #374151;
+  --sidebar-heading: #111827;
+  --sidebar-muted: #9ca3af;
+  --sidebar-hover: #f0f2f5;
+  --sidebar-border: #e3e6ea;
+}
+
+/* --- Midnight: dark theme --- */
+html[data-theme="midnight"] {
+  --bg: #0f1420;
+  --surface: #171e2e;
+  --surface-2: #1f2740;
+  --hover: #232c47;
+  --border: #2c3550;
+  --text: #e5e9f2;
+  --muted: #94a0b8;
+  --accent: #6366f1;
+  --accent-strong: #818cf8;
+  --accent-2: #22d3ee;
+  --accent-soft: #26304f;
+  --success: #34d399;
+  --success-soft: #113527;
+  --warning: #fbbf24;
+  --warning-strong: #fcd34d;
+  --warning-soft: #3a2e10;
+  --danger: #f87171;
+  --danger-soft: #3b1a1a;
+  --sidebar-bg: #131928;
+  --sidebar-text: #c3cbdd;
+  --sidebar-heading: #eef1f8;
+  --sidebar-muted: #6b7690;
+  --sidebar-hover: #222b45;
+  --sidebar-border: #262f4a;
+  --shadow: 0 1px 3px rgba(0,0,0,.4);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.5);
+}
+
+/* --- Classic: top-navigation layout, denser, serif headings --- */
+html[data-theme="classic"] {
+  --bg: #efece5;
+  --surface: #fbfaf7;
+  --surface-2: #f1eee6;
+  --hover: #ece7db;
+  --border: #d8d2c4;
+  --text: #2b2620;
+  --muted: #7a7263;
+  --accent: #0f766e;
+  --accent-strong: #115e59;
+  --accent-2: #b45309;
+  --accent-soft: #d7ece9;
+  --success: #3f6212;
+  --success-soft: #e4ecc9;
+  --warning: #a16207;
+  --warning-strong: #854d0e;
+  --warning-soft: #f5e9c8;
+  --danger: #b91c1c;
+  --danger-soft: #f6dede;
+  --sidebar-bg: #2b2620;
+  --sidebar-text: #e8e2d5;
+  --sidebar-heading: #fbfaf7;
+  --sidebar-muted: #a89e8b;
+  --sidebar-hover: #3a342b;
+  --sidebar-border: #443d33;
+  --radius: 4px;
+  --radius-sm: 3px;
+}
+html[data-theme="classic"] body { font-size: 13.5px; }
+html[data-theme="classic"] h1, html[data-theme="classic"] h2, html[data-theme="classic"] h3 { letter-spacing: .01em; }
+html[data-theme="classic"] .card { box-shadow: none; }
+html[data-theme="classic"] .btn { border-radius: 3px; }
+
+/* Classic layout: top navigation instead of sidebar */
+html[data-theme="classic"] .layout { display: block; }
+html[data-theme="classic"] .sidebar {
+  width: 100%; height: auto; position: sticky; top: 0;
+  flex-direction: row; align-items: center; flex-wrap: wrap;
+  padding: 0 8px;
+}
+html[data-theme="classic"] .sidebar .brand { border-bottom: none; padding: 10px 12px; }
+html[data-theme="classic"] .nav { display: flex; flex-wrap: wrap; padding: 4px 8px 10px; flex: 1 1 100%; }
+html[data-theme="classic"] .nav .nav-section { display: none; }
+html[data-theme="classic"] .nav a { padding: 6px 10px; }
+html[data-theme="classic"] .topbar { position: static; }
+html[data-theme="classic"] .brand .logo { border-radius: 4px; }
+
+/* --- High contrast accessibility tweak available on all themes --- */
+html[data-contrast="high"] { --border: currentColor; }

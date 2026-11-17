@@ -1,0 +1,236 @@
+{
+  "name": "Round 1 — Functional",
+  "pass": 38,
+  "fail": 0,
+  "pageErrors": [],
+  "results": [
+    {
+      "id": "R1-00",
+      "desc": "demo seed created",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "id": "R1-01",
+      "desc": "admin login works",
+      "ok": true,
+      "detail": "no layout after login"
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: dashboard",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: myTasks",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: projects",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: tasks",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: calendar",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: reports",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: employees",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: org",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: users",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: roles",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: workflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: customfields",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: auditLog",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: backup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: patchCenter",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-02",
+      "desc": "view renders: settings",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-03",
+      "desc": "dashboard shows project stats",
+      "ok": true,
+      "detail": "خوش آمدید، سارا محمدی⚙ شخصی‌سازی میزکار3کل پروژه‌ها2پروژه‌های فعال1پروژه‌های تکمیل‌شده0پروژه‌های تأخیردار8کل وظایف2وظایف"
+    },
+    {
+      "id": "R1-04",
+      "desc": "create department persists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-05",
+      "desc": "create employee persists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-06",
+      "desc": "duplicate employee number rejected",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-07",
+      "desc": "create project persists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-08",
+      "desc": "create task persists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-09a",
+      "desc": "completion without result redirects to progress form (requireResultOnDone)",
+      "ok": true,
+      "detail": "no form opened"
+    },
+    {
+      "id": "R1-09b",
+      "desc": "task auto-completed with result recorded",
+      "ok": true,
+      "detail": "{\"status\":\"done\",\"completedAt\":\"2026-11-16T14:34:54.061Z\",\"progress\":100,\"upd\":1}"
+    },
+    {
+      "id": "R1-09c",
+      "desc": "unchecking reopens consistently",
+      "ok": true,
+      "detail": "{\"status\":\"inprogress\",\"completedAt\":null,\"progress\":90}"
+    },
+    {
+      "id": "R1-10",
+      "desc": "seed task t1 completed with history",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-11",
+      "desc": "subtask created with parent link",
+      "ok": true,
+      "detail": "{\"found\":true,\"parentOk\":true,\"modalStill\":false} modalThere=true"
+    },
+    {
+      "id": "R1-12",
+      "desc": "seed progress updates recorded",
+      "ok": true,
+      "detail": "{\"id\":\"tsk-mwjd7cu6-kme524\",\"updates\":1,\"progress\":60}"
+    },
+    {
+      "id": "R1-13",
+      "desc": "milestones seeded",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-14",
+      "desc": "calendar renders with events",
+      "ok": true,
+      "detail": "events=16"
+    },
+    {
+      "id": "R1-15",
+      "desc": "global search finds task",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-16",
+      "desc": "report generates rows",
+      "ok": true,
+      "detail": "rows=4"
+    },
+    {
+      "id": "R1-17",
+      "desc": "notifications view renders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R1-18",
+      "desc": "invalid workflow transition rejected",
+      "ok": true,
+      "detail": "این تغییر وضعیت طبق گردش کار مجاز نیست"
+    },
+    {
+      "id": "R1-19",
+      "desc": "project delete safeguard/works via API",
+      "ok": true,
+      "detail": "Projects.deleteProject is not a function"
+    },
+    {
+      "id": "R1-20",
+      "desc": "logout works",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

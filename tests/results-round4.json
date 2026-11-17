@@ -1,0 +1,122 @@
+{
+ "name": "Round 4 — Localization & Responsive",
+ "pass": 19,
+ "fail": 0,
+ "pageErrors": [],
+ "results": [
+  {
+   "id": "R4-01",
+   "desc": "default FA RTL, lang=fa, theme=simple",
+   "ok": true,
+   "detail": "{\"dir\":\"rtl\",\"lang\":\"fa\",\"theme\":\"simple\",\"calLang\":\"fa\",\"font\":\"Vazirmatn, Tahoma, sans-serif\"}"
+  },
+  {
+   "id": "R4-02",
+   "desc": "Vazirmatn font embedded and applied",
+   "ok": true,
+   "detail": "Vazirmatn, Tahoma, sans-serif"
+  },
+  {
+   "id": "R4-03",
+   "desc": "Jalali anchor dates (Nowruz 1403/1404/1405, leap Esfand)",
+   "ok": true,
+   "detail": "{\"2024-03-20\":[1403,1,1],\"2025-03-21\":[1404,1,1],\"2026-03-21\":[1405,1,1],\"2025-03-20\":[1403,12,30]}"
+  },
+  {
+   "id": "R4-04",
+   "desc": "leap years: Jalali 1403/1399 leap, 1404 not; Gregorian 2024/2000 leap, 2025/1900 not",
+   "ok": true,
+   "detail": "{\"j1403esfand\":30,\"j1404esfand\":29,\"j1399esfand\":30,\"g2024feb\":29,\"g2025feb\":28,\"g2000feb\":29,\"g1900feb\":28}"
+  },
+  {
+   "id": "R4-05",
+   "desc": "month/year boundaries continuous (Jalali + Gregorian, incl. leap months)",
+   "ok": true,
+   "detail": "[[\"1404/8\",\"len=30\",\"2025-11-21\",\"->\",\"1404/9/1\",\"ok\"],[\"1403/12\",\"len=30\",\"2025-03-20\",\"->\",\"1404/1/1\",\"ok\"],[\"1399/12\",\"len=30\",\"2021-03-20\",\"->\",\"1400/1/1\",\"ok\"],[\"1404/3\",\"len=31\",\"2025-06-21\",\"->\",\"1404/4/1\",\"ok\"],[\"1425/6\",\"len=31\",\"2046-09-22\",\"->\",\"1425/7/1\",\"ok\"],[\"1353/10\",\"len=30\",\"1975-01-20\",\"->\",\"1353/11/1\",\"ok\"],[\"2024/2\",\"len=29\",\"2024-02-29\",\"->\",\"2024/3/1\",\"ok\"],[\"2025/12\",\"len=31\",\"2025-12-31\",\"->\",\"2026/1/1\",\"ok\"],[\"2000/2\",\"len=29\",\"2000-02-29\",\"->\",\"2000/3/1\",\"ok\"],[\"2075/12\",\"len=31\",\"2075-12-31\",\"->\",\"2076/1/1\",\"ok\"]]"
+  },
+  {
+   "id": "R4-06",
+   "desc": "calendar cross-checked vs reference algorithm 1975-2075 (100+ years, ~36800 days), 0 errors",
+   "ok": true,
+   "detail": "checked=36890 errors="
+  },
+  {
+   "id": "R4-07",
+   "desc": "switch FA->EN: LTR, lang=en, stored ISO date unchanged",
+   "ok": true,
+   "detail": "{\"dir\":\"ltr\",\"lang\":\"en\",\"taskDue\":\"2026-10-27\",\"navText\":\"MAIN\\n📊\\nDashboard\\n📋\\nMy tasks\\n📁\\nProject\"}"
+  },
+  {
+   "id": "R4-08",
+   "desc": "EN mode renders Gregorian format of stored date",
+   "ok": true,
+   "detail": "{\"iso\":\"2026-10-27\",\"text\":\"2026-10-27\",\"bodyHas\":true}"
+  },
+  {
+   "id": "R4-09",
+   "desc": "EN datepicker entry stores correct canonical ISO",
+   "ok": true,
+   "detail": "{\"ok\":true,\"faVal\":\"2025-11-16\",\"isoBack\":\"2025-11-16\"}"
+  },
+  {
+   "id": "R4-10",
+   "desc": "switch EN->FA: RTL restored",
+   "ok": true,
+   "detail": "{\"dir\":\"rtl\",\"lang\":\"fa\",\"bodyHas\":true}"
+  },
+  {
+   "id": "R4-11",
+   "desc": "FA<->EN round trip: no data mutation",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "id": "R4-12",
+   "desc": "FA mode renders Jalali format of same stored date",
+   "ok": true,
+   "detail": "{\"text\":\"1405/08/05\",\"bodyHas\":true}"
+  },
+  {
+   "id": "R4-13",
+   "desc": "all 3 themes apply and render dashboard without errors",
+   "ok": true,
+   "detail": "[{\"th\":\"simple\",\"theme\":\"simple\",\"bg\":\"rgb(245, 246, 248)\",\"accent\":\"#2563eb\",\"cards\":1},{\"th\":\"midnight\",\"theme\":\"midnight\",\"bg\":\"rgb(15, 20, 32)\",\"accent\":\"#6366f1\",\"cards\":1},{\"th\":\"classic\",\"theme\":\"classic\",\"bg\":\"rgb(239, 236, 229)\",\"accent\":\"#0f766e\",\"cards\":1}]"
+  },
+  {
+   "id": "R4-14",
+   "desc": "themes are visually distinct (different accent variables)",
+   "ok": true,
+   "detail": "[[\"simple\",\"#2563eb\"],[\"midnight\",\"#6366f1\"],[\"classic\",\"#0f766e\"]]"
+  },
+  {
+   "id": "R4-15",
+   "desc": "theme switching does not alter data",
+   "ok": true,
+   "detail": "\"9:3\""
+  },
+  {
+   "id": "R4-16",
+   "desc": "no horizontal overflow at all 9 viewports (dashboard)",
+   "ok": true,
+   "detail": "[[320,0],[360,0],[390,0],[430,0],[768,0],[1024,0],[1280,0],[1440,0],[1920,0]]"
+  },
+  {
+   "id": "R4-17",
+   "desc": "tasks view: no page overflow, tables in scroll containers",
+   "ok": true,
+   "detail": "[{\"w\":320,\"overflow\":0,\"tableScroll\":true},{\"w\":390,\"overflow\":0,\"tableScroll\":true},{\"w\":768,\"overflow\":0,\"tableScroll\":true},{\"w\":1920,\"overflow\":0,\"tableScroll\":true}]"
+  },
+  {
+   "id": "R4-18",
+   "desc": "mobile: hamburger visible and opens navigation",
+   "ok": true,
+   "detail": "{\"vis\":true,\"opened\":true}"
+  },
+  {
+   "id": "R4-19",
+   "desc": "mobile 390px: dialog fits viewport width",
+   "ok": true,
+   "detail": "{\"w\":370.260009765625,\"vw\":390,\"fits\":true}"
+  }
+ ]
+}

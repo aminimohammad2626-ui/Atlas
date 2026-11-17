@@ -1,0 +1,18 @@
+{
+  "id": "atlas-announcements",
+  "name": "Atlas Announcements",
+  "nameFa": "اطلاعیه‌های سازمانی",
+  "version": "1.0.0",
+  "description": "Adds an organization-wide announcements module: create, publish and view announcements with audience targeting, plus schema migration to version 2.",
+  "descriptionFa": "افزودن ماژول اطلاعیه‌های سازمانی: ایجاد، انتشار و مشاهده اطلاعیه‌ها با مخاطب هدف، همراه با مهاجرت ساختار داده به نسخه ۲.",
+  "publisher": "atlas-official",
+  "createdAt": "2025-01-01T00:00:00.000Z",
+  "minAppVersion": "1.0.0",
+  "maxAppVersion": "1.999.999",
+  "minSchemaVersion": 1,
+  "dependencies": [],
+  "conflicts": [],
+  "requiresMigration": true,
+  "toSchema": 2,
+  "instructions": "Install from Patch Center. Requires 'patch install' permission. Automatically migrates schema 1 -> 2 and registers the announcements view and report."
+}

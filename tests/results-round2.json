@@ -1,0 +1,122 @@
+{
+  "name": "Round 2 — Persistence & Recovery",
+  "pass": 19,
+  "fail": 0,
+  "pageErrors": [],
+  "results": [
+    {
+      "id": "R2-01",
+      "desc": "data survives reload (localStorage)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R2-02",
+      "desc": "save produces HTML with embedded data",
+      "ok": true,
+      "detail": "embedded len=30153"
+    },
+    {
+      "id": "R2-03",
+      "desc": "embedded data contains the made change",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R2-04",
+      "desc": "embedded data has users with hashed passwords (no plaintext)",
+      "ok": true,
+      "detail": "{\"id\":\"usr-mwjcqmlj-x1l7hb\",\"seq\":1,\"username\":\"admin\",\"displayName\":\"مدیر سیستم\",\"salt\":\"s-mwjcqmk8"
+    },
+    {
+      "id": "R2-04b",
+      "desc": "no plaintext password in embedded data JSON",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R2-05",
+      "desc": "saved HTML carries data to a new instance",
+      "ok": true,
+      "detail": "{\"dept\":true,\"users\":4,\"projects\":3,\"tasks\":9}"
+    },
+    {
+      "id": "R2-05b",
+      "desc": "saved instance shows login (no session leakage)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R2-06",
+      "desc": "login works on saved instance (password hashes preserved)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R2-07",
+      "desc": "backup validates",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R2-08",
+      "desc": "tampered backup rejected (checksum)",
+      "ok": true,
+      "detail": "{\"ok\":false,\"msg\":\"checksum\"}"
+    },
+    {
+      "id": "R2-09",
+      "desc": "malformed backup rejected",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R2-10",
+      "desc": "clean instance has no users",
+      "ok": true,
+      "detail": "users=0"
+    },
+    {
+      "id": "R2-11",
+      "desc": "restore into clean app succeeds",
+      "ok": true,
+      "detail": "{\"ok\":true,\"counts\":{\"users\":4,\"roles\":7,\"employees\":6,\"departments\":4,\"teams\":3,\"projects\":3,\"tasks\":9,\"milestones\":3,\""
+    },
+    {
+      "id": "R2-12",
+      "desc": "restored dates are canonical Gregorian ISO",
+      "ok": true,
+      "detail": "{\"start\":\"2026-10-17\",\"end\":\"2027-01-15\",\"tasks\":9}"
+    },
+    {
+      "id": "R2-13",
+      "desc": "dates consistent after language switch (same underlying date)",
+      "ok": true,
+      "detail": "2026-10-17 vs 1405/07/25"
+    },
+    {
+      "id": "R2-13b",
+      "desc": "login works after restore",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R2-14",
+      "desc": "interrupted restore rolls back to previous state",
+      "ok": true,
+      "detail": "{\"err\":\"simulated crash\",\"stateUnchanged\":true}"
+    },
+    {
+      "id": "R2-15",
+      "desc": "autosave persists to local storage (not before, yes after)",
+      "ok": true,
+      "detail": "before=false after=true"
+    },
+    {
+      "id": "R2-16",
+      "desc": "schema-1 backup restores cleanly into current base app",
+      "ok": true,
+      "detail": "{\"ok\":true,\"migrated\":false,\"schema\":1,\"hasAnn\":true}"
+    }
+  ]
+}

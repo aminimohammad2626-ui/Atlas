@@ -509,6 +509,50 @@ html[data-contrast="high"] { --border: currentColor; }
 .hide-sm { display: inline; }
 @media (max-width: 768px) { .hide-sm { display: none; } }
 
+/* --- command palette --- */
+.palette-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(15, 23, 42, .45);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 10vh 16px 0;
+}
+.palette-box {
+  width: 100%; max-width: 560px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: var(--shadow-lg, 0 12px 40px rgba(0,0,0,.25));
+  overflow: hidden; direction: inherit;
+}
+.palette-input {
+  width: 100%; border: none; outline: none; background: transparent;
+  padding: 14px 16px; font: inherit; font-size: 15px; color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+.palette-list { max-height: 46vh; overflow-y: auto; padding: 6px; }
+.palette-group {
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .04em;
+  padding: 8px 10px 4px;
+}
+.palette-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 8px; cursor: pointer; color: var(--text);
+}
+.palette-item.active { background: var(--hover); }
+.palette-icon { width: 20px; text-align: center; flex: none; }
+.palette-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.palette-hint { font-size: 11px; color: var(--muted); flex: none; }
+.palette-empty { padding: 18px; text-align: center; color: var(--muted); }
+.palette-foot {
+  display: flex; justify-content: space-between; gap: 8px;
+  padding: 8px 14px; border-top: 1px solid var(--border);
+  font-size: 11px; color: var(--muted);
+}
+
+/* --- kanban drag & drop --- */
+.board-card[draggable="true"] { cursor: grab; }
+.board-card.dragging { opacity: .45; }
+.board-col.drag-over { outline: 2px dashed var(--accent); outline-offset: -3px; background: var(--hover); }
+
 /* 50-calendar.css */
 /* ===== Calendar grid ===== */
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
@@ -544,7 +588,7 @@ html[data-contrast="high"] { --border: currentColor; }
 <script id="atlas-embedded-data" type="application/json">null</script>
 <script id="atlas-embedded-patch" type="application/json">null</script>
 <script>
-window.ATLAS_META = {"appVersion":"1.0.0","schemaVersion":1};
+window.ATLAS_META = {"appVersion":"1.1.0","schemaVersion":1};
 /* ===== 00-util.js ===== */
 /* ===== Utilities ===== */
 'use strict';
@@ -808,6 +852,9 @@ I18N.dict.fa = {
   patchDeactivate: 'غیرفعال‌سازی', patchActivate: 'فعال‌سازی',
   auditActor: 'کاربر', auditAction: 'عملیات', auditTarget: 'موضوع', auditTime: 'زمان', auditResult: 'نتیجه',
   auditPrev: 'مقدار قبلی', auditNew: 'مقدار جدید',
+  paletteTitle: 'جستجوی سریع', palettePlaceholder: 'به صفحه، اقدام یا رکورد بپروید…',
+  paletteNav: 'صفحه‌ها', paletteActions: 'اقدامات', paletteRecords: 'رکوردها',
+  paletteEmpty: 'نتیجه‌ای یافت نشد', paletteHint: 'Enter انتخاب • Esc بستن',
   permDenied: 'شما مجوز لازم برای این عملیات را ندارید', permDeniedView: 'دسترسی مشاهده این بخش را ندارید',
   permDeniedCreate: 'دسترسی ایجاد را ندارید', permDeniedEdit: 'دسترسی ویرایش را ندارید', permDeniedDelete: 'دسترسی حذف را ندارید',
   globalSearch: 'جستجوی سراسری', searchResults: 'نتایج جستجو', searchIn: 'جستجو در',
@@ -974,6 +1021,9 @@ I18N.dict.en = {
   patchDeactivate: 'Deactivate', patchActivate: 'Activate',
   auditActor: 'Actor', auditAction: 'Operation', auditTarget: 'Target', auditTime: 'Time', auditResult: 'Result',
   auditPrev: 'Previous value', auditNew: 'New value',
+  paletteTitle: 'Quick jump', palettePlaceholder: 'Jump to a page, action, or record\u2026',
+  paletteNav: 'Pages', paletteActions: 'Actions', paletteRecords: 'Records',
+  paletteEmpty: 'No matches', paletteHint: 'Enter to select \u2022 Esc to close',
   permDenied: 'You do not have permission for this operation', permDeniedView: 'You do not have access to this section',
   permDeniedCreate: 'No permission to create', permDeniedEdit: 'No permission to edit', permDeniedDelete: 'No permission to delete',
   globalSearch: 'Global search', searchResults: 'Search results', searchIn: 'Search in',
@@ -3533,6 +3583,30 @@ const UI = {
     document.getElementById('btn-notifications').addEventListener('click', () => {
       this.nav('notifications');
     });
+    if (!this._keysBound) {
+      this._keysBound = true;
+      document.addEventListener('keydown', e => {
+        const mod = e.ctrlKey || e.metaKey;
+        if (mod && (e.key === 'k' || e.key === 'K')) {
+          e.preventDefault();
+          if (UI.palette.el) UI.palette.close(); else UI.palette.open();
+          return;
+        }
+        if (e.key === 'Escape' && UI.palette.el) { UI.palette.close(); return; }
+        if (mod && (e.key === 's' || e.key === 'S') && Auth.currentUser()) {
+          e.preventDefault();
+          SaveSys.save();
+          return;
+        }
+        if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+          const tag = (document.activeElement && document.activeElement.tagName) || '';
+          if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
+            const q = document.getElementById('topbar-q');
+            if (q) { e.preventDefault(); q.focus(); }
+          }
+        }
+      });
+    }
   },
 
   /* ---------- auth screens ---------- */
@@ -3769,6 +3843,125 @@ const Widgets = {
   },
   parseTags(v) {
     return String(v || '').split(/[,،]/).map(x => x.trim()).filter(Boolean);
+  }
+};
+
+/* ===== 74-palette.js ===== */
+/* ===== Command palette (Ctrl+K) ===== */
+UI.palette = {
+  el: null,
+  input: null,
+  listEl: null,
+  results: [],
+  sel: 0,
+
+  sources() {
+    const navIds = ['dashboard', 'myTasks', 'projects', 'tasks', 'calendar', 'reports',
+      'employees', 'org', 'users', 'roles', 'workflow', 'backup', 'patchCenter', 'settings', 'auditLog'];
+    const out = [];
+    navIds.forEach(id => {
+      const v = UI.views[id];
+      if (!v) return;
+      if (v.module && !Perms.can(v.module, 'view')) return;
+      out.push({ group: 'nav', icon: UI.iconFor(id), label: v.title(), run: () => UI.nav(id) });
+    });
+    const acts = [];
+    if (Perms.can('tasks', 'create')) acts.push({ icon: '✅', label: t('newTask'), run: () => { UI.nav('tasks'); TaskViews.openForm(null); } });
+    if (Perms.can('projects', 'create')) acts.push({ icon: '📁', label: t('newProject'), run: () => { UI.nav('projects'); ProjectViews.openForm(null); } });
+    if (Perms.can('employees', 'create')) acts.push({ icon: '👤', label: t('newEmployee'), run: () => { UI.nav('employees'); EmployeeViews.openForm(null); } });
+    if (Perms.can('users', 'create')) acts.push({ icon: '🔑', label: t('newUser'), run: () => { UI.nav('users'); AdminViews.userForm(null); } });
+    acts.push({ icon: '💾', label: t('save'), run: () => SaveSys.save() });
+    acts.push({ icon: '🌐', label: t('language') + ' (' + (I18N.getLang() === 'fa' ? 'English' : 'فارسی') + ')', run: () => {
+      Store.state.settings.language = I18N.getLang() === 'fa' ? 'en' : 'fa';
+      Store.persist(); UI.render();
+    } });
+    acts.forEach(a => out.push(Object.assign({ group: 'actions' }, a)));
+    const q = (this.input ? this.input.value : '').trim().toLowerCase();
+    if (q) {
+      Tasks.visible().filter(x => x.title.toLowerCase().includes(q)).slice(0, 5).forEach(x => {
+        out.push({ group: 'records', icon: '✅', label: x.title, hint: t('task'), run: () => { UI.nav('tasks'); TaskViews.openDetails(x.id); } });
+      });
+      Perms.visible('projects', Store.state.projects.filter(x => x.title.toLowerCase().includes(q))).slice(0, 5).forEach(x => {
+        out.push({ group: 'records', icon: '📁', label: x.title, hint: t('project'), run: () => UI.nav('projectDetail', { id: x.id }) });
+      });
+      Perms.visible('employees', Store.state.employees.filter(x => (x.fullName || '').toLowerCase().includes(q))).slice(0, 5).forEach(x => {
+        out.push({ group: 'records', icon: '👤', label: x.fullName, hint: t('employee'), run: () => UI.nav('employees') });
+      });
+    }
+    return out;
+  },
+
+  query() {
+    const q = (this.input.value || '').trim().toLowerCase();
+    const all = this.sources();
+    this.results = q ? all.filter(s => s.label.toLowerCase().includes(q)) : all.filter(s => s.group !== 'records');
+    this.sel = 0;
+    this.renderList();
+  },
+
+  renderList() {
+    const groups = { nav: t('paletteNav'), actions: t('paletteActions'), records: t('paletteRecords') };
+    let html = '', lastGroup = null;
+    this.results.forEach((s, i) => {
+      if (s.group !== lastGroup) {
+        html += '<div class="palette-group">' + U.esc(groups[s.group] || s.group) + '</div>';
+        lastGroup = s.group;
+      }
+      html += '<div class="palette-item' + (i === this.sel ? ' active' : '') + '" data-idx="' + i + '">' +
+        '<span class="palette-icon">' + (s.icon || '•') + '</span><span class="palette-label">' + U.esc(s.label) + '</span>' +
+        (s.hint ? '<span class="palette-hint">' + U.esc(s.hint) + '</span>' : '') + '</div>';
+    });
+    this.listEl.innerHTML = html || '<div class="palette-empty">' + U.esc(t('paletteEmpty')) + '</div>';
+    this.listEl.querySelectorAll('.palette-item').forEach(item => {
+      item.addEventListener('click', () => this.choose(+item.dataset.idx));
+      item.addEventListener('mousemove', () => {
+        if (this.sel !== +item.dataset.idx) { this.sel = +item.dataset.idx; this.renderList(); }
+      });
+    });
+    const act = this.listEl.querySelector('.palette-item.active');
+    if (act) act.scrollIntoView({ block: 'nearest' });
+  },
+
+  open() {
+    if (this.el) return;
+    if (!Auth.currentUser()) return;
+    const ov = document.createElement('div');
+    ov.className = 'palette-overlay';
+    ov.innerHTML = '<div class="palette-box" role="dialog" aria-label="' + U.esc(t('paletteTitle')) + '">' +
+      '<input type="text" class="palette-input" placeholder="' + U.esc(t('palettePlaceholder')) + '">' +
+      '<div class="palette-list"></div>' +
+      '<div class="palette-foot"><span>Ctrl+K</span><span>' + U.esc(t('paletteHint')) + '</span></div></div>';
+    document.body.appendChild(ov);
+    this.el = ov;
+    this.input = ov.querySelector('.palette-input');
+    this.listEl = ov.querySelector('.palette-list');
+    ov.addEventListener('mousedown', e => { if (e.target === ov) this.close(); });
+    this.input.addEventListener('input', () => this.query());
+    this.input.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); this.move(1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); this.move(-1); }
+      else if (e.key === 'Enter') { e.preventDefault(); this.choose(this.sel); }
+      else if (e.key === 'Escape') { e.preventDefault(); this.close(); }
+    });
+    this.query();
+    this.input.focus();
+  },
+
+  close() {
+    if (this.el) { this.el.remove(); this.el = null; this.input = null; this.listEl = null; this.results = []; }
+  },
+
+  move(d) {
+    if (!this.results.length) return;
+    this.sel = (this.sel + d + this.results.length) % this.results.length;
+    this.renderList();
+  },
+
+  choose(i) {
+    const s = this.results[i];
+    if (!s) return;
+    this.close();
+    try { s.run(); } catch (e) { UI.toast(e.message, 'error'); }
   }
 };
 
@@ -4491,14 +4684,46 @@ UI.registerView({
     const el = document.getElementById('tk-list');
     if (f.mode === 'board') {
       const cols = Workflow.statuses('task').filter(s => s.kind !== 'cancelled');
-      el.innerHTML = '<div class="board">' + cols.map(c => {
+      el.innerHTML = '<div class="board" data-board>' + cols.map(c => {
         const items = rows.filter(x => x.status === c.id);
-        return '<div class="board-col"><h4>' + U.esc(Workflow.statusLabel('task', c.id)) + ' (' + items.length + ')</h4>' +
-          items.map(x => '<div class="board-card" data-task="' + x.id + '"><b>' + U.esc(x.title) + '</b>' +
+        return '<div class="board-col" data-col="' + c.id + '"><h4>' + U.esc(Workflow.statusLabel('task', c.id)) + ' (' + items.length + ')</h4>' +
+          items.map(x => '<div class="board-card" data-task="' + x.id + '"' + (Perms.can('tasks', 'edit', x) ? ' draggable="true"' : '') + '><b>' + U.esc(x.title) + '</b>' +
             '<div class="small muted">' + U.esc(Reports.projectName(x.projectId)) + '</div>' +
             Widgets.progressCell(x.progress) + '</div>').join('') + '</div>';
       }).join('') + '</div>';
-      el.querySelectorAll('[data-task]').forEach(c => c.addEventListener('click', () => TaskViews.openDetails(c.dataset.task)));
+      el.querySelectorAll('[data-task]').forEach(c => {
+        c.addEventListener('click', () => TaskViews.openDetails(c.dataset.task));
+        if (Perms.can('tasks', 'edit', Tasks.get(c.dataset.task))) c.addEventListener('dragstart', e => {
+          e.dataTransfer.setData('text/plain', c.dataset.task);
+          e.dataTransfer.effectAllowed = 'move';
+          c.classList.add('dragging');
+        });
+        if (Perms.can('tasks', 'edit', Tasks.get(c.dataset.task))) c.addEventListener('dragend', () => c.classList.remove('dragging'));
+      });
+      if (Perms.can('tasks', 'edit')) el.querySelectorAll('[data-col]').forEach(col => {
+        col.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; col.classList.add('drag-over'); });
+        col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+        col.addEventListener('drop', e => {
+          e.preventDefault();
+          col.classList.remove('drag-over');
+          const id = e.dataTransfer.getData('text/plain');
+          const task = Tasks.get(id);
+          if (!task || task.status === col.dataset.col) return;
+          if (!Workflow.canTransition('task', task.status, col.dataset.col)) {
+            UI.toast(t('invalidTransition'), 'error');
+            return;
+          }
+          try {
+            Tasks.setStatus(task, col.dataset.col);
+            UI.toast(t('savedOk'), 'success');
+            this.renderList();
+          } catch (ex) {
+            if (ex.code === 'resultRequired' || (Workflow.kindOf('task', col.dataset.col) === 'done' && !(task.resultSummary || '').trim())) {
+              TaskViews.openProgressForm(id, { requireResult: true });
+            } else UI.toast(ex.message, 'error');
+          }
+        });
+      });
       return;
     }
     if (!rows.length) {

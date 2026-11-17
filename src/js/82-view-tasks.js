@@ -338,14 +338,46 @@ UI.registerView({
     const el = document.getElementById('tk-list');
     if (f.mode === 'board') {
       const cols = Workflow.statuses('task').filter(s => s.kind !== 'cancelled');
-      el.innerHTML = '<div class="board">' + cols.map(c => {
+      el.innerHTML = '<div class="board" data-board>' + cols.map(c => {
         const items = rows.filter(x => x.status === c.id);
-        return '<div class="board-col"><h4>' + U.esc(Workflow.statusLabel('task', c.id)) + ' (' + items.length + ')</h4>' +
-          items.map(x => '<div class="board-card" data-task="' + x.id + '"><b>' + U.esc(x.title) + '</b>' +
+        return '<div class="board-col" data-col="' + c.id + '"><h4>' + U.esc(Workflow.statusLabel('task', c.id)) + ' (' + items.length + ')</h4>' +
+          items.map(x => '<div class="board-card" data-task="' + x.id + '"' + (Perms.can('tasks', 'edit', x) ? ' draggable="true"' : '') + '><b>' + U.esc(x.title) + '</b>' +
             '<div class="small muted">' + U.esc(Reports.projectName(x.projectId)) + '</div>' +
             Widgets.progressCell(x.progress) + '</div>').join('') + '</div>';
       }).join('') + '</div>';
-      el.querySelectorAll('[data-task]').forEach(c => c.addEventListener('click', () => TaskViews.openDetails(c.dataset.task)));
+      el.querySelectorAll('[data-task]').forEach(c => {
+        c.addEventListener('click', () => TaskViews.openDetails(c.dataset.task));
+        if (Perms.can('tasks', 'edit', Tasks.get(c.dataset.task))) c.addEventListener('dragstart', e => {
+          e.dataTransfer.setData('text/plain', c.dataset.task);
+          e.dataTransfer.effectAllowed = 'move';
+          c.classList.add('dragging');
+        });
+        if (Perms.can('tasks', 'edit', Tasks.get(c.dataset.task))) c.addEventListener('dragend', () => c.classList.remove('dragging'));
+      });
+      if (Perms.can('tasks', 'edit')) el.querySelectorAll('[data-col]').forEach(col => {
+        col.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; col.classList.add('drag-over'); });
+        col.addEventListener('dragleave', () => col.classList.remove('drag-over'));
+        col.addEventListener('drop', e => {
+          e.preventDefault();
+          col.classList.remove('drag-over');
+          const id = e.dataTransfer.getData('text/plain');
+          const task = Tasks.get(id);
+          if (!task || task.status === col.dataset.col) return;
+          if (!Workflow.canTransition('task', task.status, col.dataset.col)) {
+            UI.toast(t('invalidTransition'), 'error');
+            return;
+          }
+          try {
+            Tasks.setStatus(task, col.dataset.col);
+            UI.toast(t('savedOk'), 'success');
+            this.renderList();
+          } catch (ex) {
+            if (ex.code === 'resultRequired' || (Workflow.kindOf('task', col.dataset.col) === 'done' && !(task.resultSummary || '').trim())) {
+              TaskViews.openProgressForm(id, { requireResult: true });
+            } else UI.toast(ex.message, 'error');
+          }
+        });
+      });
       return;
     }
     if (!rows.length) {

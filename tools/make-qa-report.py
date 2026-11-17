@@ -40,7 +40,7 @@ MARGIN = 18 * mm
 
 def load_rounds():
     rounds = []
-    for n in range(1, 6):
+    for n in range(1, 7):
         p = os.path.join(ROOT, 'tests', f'results-round{n}.json')
         if os.path.exists(p):
             rounds.append(json.load(open(p, encoding='utf-8')))
@@ -70,7 +70,7 @@ def footer(canvas, doc):
     canvas.saveState()
     canvas.setFont('Vazir', 7.5)
     canvas.setFillColor('#666666')
-    canvas.drawString(MARGIN, 12 * mm, 'ATLAS 1.0.0 — Quality Assurance Report')
+    canvas.drawString(MARGIN, 12 * mm, 'ATLAS 1.1.0 — Quality Assurance Report')
     canvas.drawRightString(PAGE_W - MARGIN, 12 * mm, f'Page {doc.page}')
     canvas.setStrokeColor('#b9c6d2')
     canvas.line(MARGIN, 15 * mm, PAGE_W - MARGIN, 15 * mm)
@@ -133,10 +133,10 @@ FEATURES = [
     ('Users, roles & permissions', 'AD-like administration, 16 modules × operations × record scopes (all/department/team/assigned/own), deny-wins overrides, last-admin safeguards, permission simulator backed by the real engine.'),
     ('Employees & org structure', 'Employee records distinct from accounts, departments, teams, managers, org tree, circular-relationship prevention.'),
     ('Projects', 'Full lifecycle: create/edit/archive/restore/delete safeguards, manager & member assignment, milestones, tags, progress from tasks, history.'),
-    ('Tasks & subtasks', 'Hierarchy, dependencies, priorities, stages, workflow-validated transitions, checkbox auto-complete with result enforcement, consistent reopen, atomic progress updates with history.'),
+    ('Tasks & subtasks', 'Hierarchy, dependencies, priorities, stages, workflow-validated transitions, checkbox auto-complete with result enforcement, consistent reopen, atomic progress updates with history, Kanban board with drag & drop status changes (workflow-validated, per-record permission-checked).'),
     ('Calendar', 'Algorithmic Jalali/Gregorian engine (verified 1975–2075 against reference implementation), month/week/day views, events for tasks/milestones/projects, system-dependent date pickers.'),
     ('Dashboard & charts', 'Live KPIs and charts computed from stored data, responsive across 9 viewports (320–1920 px).'),
-    ('Search, reports & exports', 'Permission-aware global search, filtered reports, CSV export in the active calendar system.'),
+    ('Search, reports & exports', 'Permission-aware global search, filtered reports, CSV export in the active calendar system, command palette (Ctrl+K) with permission-aware pages/actions/records, keyboard shortcuts (Ctrl+K palette, Ctrl+S save, / search).'),
     ('Workflow engine', 'Configurable statuses, transitions and validation rules (e.g. required result summary on completion).'),
     ('Notifications', 'Assignment, deadline, comment and progress notifications with read state and permission-aware content.'),
     ('Persistence', 'Autosave + manual save; embedded save producing a portable updated Atlas.html; in-place saving through the File System Access API (file connected once, then every save overwrites the same file with data embedded \u2014 verified via handle write path); download only as fallback; save status indicator; localStorage only as cache.'),
@@ -169,7 +169,7 @@ def build():
     story.append(Paragraph(
         'All results in this report are generated directly from the machine-readable test outputs in '
         '<font name="Vazir-Bold">tests/results-round1..5.json</font>. '
-        f'Five distinct test rounds were executed against the real application in a real Chromium browser: '
+        f'Six distinct test rounds were executed against the real application in a real Chromium browser: '
         f'<font name="Vazir-Bold">{total_pass}/{total} checks passed, {total_fail} failures, 0 page errors.</font>', BODY))
 
     story.append(Paragraph('1. Test environment', H2))

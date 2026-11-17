@@ -254,6 +254,30 @@ const UI = {
     document.getElementById('btn-notifications').addEventListener('click', () => {
       this.nav('notifications');
     });
+    if (!this._keysBound) {
+      this._keysBound = true;
+      document.addEventListener('keydown', e => {
+        const mod = e.ctrlKey || e.metaKey;
+        if (mod && (e.key === 'k' || e.key === 'K')) {
+          e.preventDefault();
+          if (UI.palette.el) UI.palette.close(); else UI.palette.open();
+          return;
+        }
+        if (e.key === 'Escape' && UI.palette.el) { UI.palette.close(); return; }
+        if (mod && (e.key === 's' || e.key === 'S') && Auth.currentUser()) {
+          e.preventDefault();
+          SaveSys.save();
+          return;
+        }
+        if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+          const tag = (document.activeElement && document.activeElement.tagName) || '';
+          if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
+            const q = document.getElementById('topbar-q');
+            if (q) { e.preventDefault(); q.focus(); }
+          }
+        }
+      });
+    }
   },
 
   /* ---------- auth screens ---------- */

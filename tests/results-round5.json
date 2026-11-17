@@ -20,7 +20,7 @@
    "id": "R5-02",
    "desc": "patch install: schema->2, migration + install history, announcements collection & module",
    "ok": true,
-   "detail": "{\"schema\":2,\"history\":[{\"id\":\"atlas-announcements\",\"result\":\"installed\",\"schemaAfter\":2}],\"installed\":[{\"id\":\"atlas-announcements\",\"version\":\"1.0.0\",\"installedAt\":\"2026-11-17T10:59:36.306Z\",\"active\":true}],\"migHist\":[{\"from\":1,\"to\":2,\"description\":\"Add announcements collection (Atlas-patch1 schema)\",\"at\":\"2026-11-17T10:59:36.306Z\"}],\"annCollection\":true,\"moduleReg\":true}"
+   "detail": "{\"schema\":2,\"history\":[{\"id\":\"atlas-announcements\",\"result\":\"installed\",\"schemaAfter\":2}],\"installed\":[{\"id\":\"atlas-announcements\",\"version\":\"1.0.0\",\"installedAt\":\"2026-11-17T11:17:28.013Z\",\"active\":true}],\"migHist\":[{\"from\":1,\"to\":2,\"description\":\"Add announcements collection (Atlas-patch1 schema)\",\"at\":\"2026-11-17T11:17:28.012Z\"}],\"annCollection\":true,\"moduleReg\":true}"
   },
   {
    "id": "R5-03",
@@ -38,7 +38,7 @@
    "id": "R5-05",
    "desc": "patch rollback: history marked rolledBack, payload removed",
    "ok": true,
-   "detail": "{\"rec\":{\"id\":\"atlas-announcements\",\"name\":\"Atlas Announcements\",\"nameFa\":\"اطلاعیه‌های سازمانی\",\"version\":\"1.0.0\",\"publisher\":\"atlas-official\",\"installedAt\":\"2026-11-17T10:59:36.306Z\",\"installedBy\":\"usr-mwkkyj5x-jp9c4l\",\"result\":\"rolledBack\",\"schemaAfter\":2,\"rollbackAvailable\":false,\"rolledBackAt\":\"2026-11-17T10:59:39.872Z\"},\"payloadGone\":true,\"uninstalled\":true}"
+   "detail": "{\"rec\":{\"id\":\"atlas-announcements\",\"name\":\"Atlas Announcements\",\"nameFa\":\"اطلاعیه‌های سازمانی\",\"version\":\"1.0.0\",\"publisher\":\"atlas-official\",\"installedAt\":\"2026-11-17T11:17:28.013Z\",\"installedBy\":\"usr-mwklli7s-pug0bh\",\"result\":\"rolledBack\",\"schemaAfter\":2,\"rollbackAvailable\":false,\"rolledBackAt\":\"2026-11-17T11:17:31.578Z\"},\"payloadGone\":true,\"uninstalled\":true}"
   },
   {
    "id": "R5-06",
@@ -56,13 +56,13 @@
    "id": "R5-08",
    "desc": "incompatible patch rejected (minAppVersion 99.0.0)",
    "ok": true,
-   "detail": "{\"v\":true,\"c\":{\"ok\":false,\"msg\":\"این بسته با نسخه برنامه (1.0.0) سازگار نیست (پشتیبانی: 99.0.0 تا 1.999.999)\"}}"
+   "detail": "{\"v\":true,\"c\":{\"ok\":false,\"msg\":\"این بسته با نسخه برنامه (1.1.0) سازگار نیست (پشتیبانی: 99.0.0 تا 1.999.999)\"}}"
   },
   {
    "id": "R5-09",
    "desc": "malformed / non-atlas packages rejected",
    "ok": true,
-   "detail": "{\"tampered\":{\"ok\":false,\"msg\":\"صحت بسته تأیید نشد؛ فایل آسیب‌دیده یا دستکاری‌شده است\"},\"incompat\":{\"v\":true,\"c\":{\"ok\":false,\"msg\":\"این بسته با نسخه برنامه (1.0.0) سازگار نیست (پشتیبانی: 99.0.0 تا 1.999.999)\"}},\"malformed\":{\"ok\":false,\"msg\":\"ساختار بسته معتبر نیست\"},\"notFormat\":{\"ok\":false,\"msg\":\"ساختار بسته معتبر نیست\"}}"
+   "detail": "{\"tampered\":{\"ok\":false,\"msg\":\"صحت بسته تأیید نشد؛ فایل آسیب‌دیده یا دستکاری‌شده است\"},\"incompat\":{\"v\":true,\"c\":{\"ok\":false,\"msg\":\"این بسته با نسخه برنامه (1.1.0) سازگار نیست (پشتیبانی: 99.0.0 تا 1.999.999)\"}},\"malformed\":{\"ok\":false,\"msg\":\"ساختار بسته معتبر نیست\"},\"notFormat\":{\"ok\":false,\"msg\":\"ساختار بسته معتبر نیست\"}}"
   },
   {
    "id": "R5-10",
@@ -98,19 +98,19 @@
    "id": "R5-15",
    "desc": "stress: 2000 tasks + 50 projects created in < 30s",
    "ok": true,
-   "detail": "{\"createTasks\":\"87ms\",\"count\":2010}"
+   "detail": "{\"createTasks\":\"95ms\",\"count\":2010}"
   },
   {
    "id": "R5-16",
    "desc": "stress: tasks view renders 2000+ tasks < 3s (paginated)",
    "ok": true,
-   "detail": "4ms"
+   "detail": "3ms"
   },
   {
    "id": "R5-17",
    "desc": "stress: search across 2000 tasks < 1s and finds matches",
    "ok": true,
-   "detail": "0ms hits=11"
+   "detail": "1ms hits=11"
   },
   {
    "id": "R5-18",
@@ -128,7 +128,7 @@
    "id": "R5-20",
    "desc": "embedded save with 2000+ tasks: builds < 5s, embedded JSON parses",
    "ok": true,
-   "detail": "{\"ms\":15,\"sizeKB\":2124,\"parsedOk\":true,\"err\":null}"
+   "detail": "{\"ms\":14,\"sizeKB\":2135,\"parsedOk\":true,\"err\":null}"
   },
   {
    "id": "R5-21",
@@ -140,7 +140,7 @@
    "id": "R5-22",
    "desc": "large backup restore into clean instance: all 2000+ tasks, < 15s",
    "ok": true,
-   "detail": "{\"ok\":true,\"ms\":97,\"tasks\":2010,\"projects\":53,\"users\":4,\"schema\":2}"
+   "detail": "{\"ok\":true,\"ms\":98,\"tasks\":2010,\"projects\":53,\"users\":4,\"schema\":2}"
   },
   {
    "id": "R5-23",

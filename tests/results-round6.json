@@ -1,0 +1,97 @@
+{
+  "name": "Round 6 — Professional UX (Kanban DnD, palette, shortcuts)",
+  "pass": 15,
+  "fail": 0,
+  "results": [
+    {
+      "id": "R6-01",
+      "desc": "app version is 1.1.0",
+      "ok": true,
+      "detail": "1.1.0"
+    },
+    {
+      "id": "R6-02",
+      "desc": "Ctrl+K opens command palette",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R6-03",
+      "desc": "palette lists pages + actions for admin",
+      "ok": true,
+      "detail": "{\"total\":21,\"hasNav\":true,\"hasActions\":true}"
+    },
+    {
+      "id": "R6-04",
+      "desc": "typing filters and finds task records",
+      "ok": true,
+      "detail": "{\"records\":1,\"total\":1,\"term\":\"تحلیل \"}"
+    },
+    {
+      "id": "R6-05",
+      "desc": "Enter selects and closes palette",
+      "ok": true,
+      "detail": "{\"closed\":true,\"view\":\"tasks\"}"
+    },
+    {
+      "id": "R6-06",
+      "desc": "Esc closes palette",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R6-07",
+      "desc": "palette hides admin pages/actions for employee",
+      "ok": true,
+      "detail": "{\"open\":true,\"noUsers\":true,\"noNewUser\":true}"
+    },
+    {
+      "id": "R6-08",
+      "desc": "board renders columns with draggable cards",
+      "ok": true,
+      "detail": "{\"cols\":6,\"cards\":8}"
+    },
+    {
+      "id": "R6-09",
+      "desc": "drag card to allowed column changes status",
+      "ok": true,
+      "detail": "todo -> inprogress"
+    },
+    {
+      "id": "R6-10",
+      "desc": "drop records status history",
+      "ok": true,
+      "detail": "\"inprogress\""
+    },
+    {
+      "id": "R6-11",
+      "desc": "invalid drop rejected (status unchanged)",
+      "ok": true,
+      "detail": "{\"status\":\"done\",\"toast\":\"با موفقیت ذخیره شد\"}"
+    },
+    {
+      "id": "R6-12",
+      "desc": "employee can only drag own assigned tasks (perm enforced)",
+      "ok": true,
+      "detail": "{\"dragCount\":1,\"allMine\":true}"
+    },
+    {
+      "id": "R6-13",
+      "desc": "'/' focuses topbar search",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "R6-14",
+      "desc": "Ctrl+S saves",
+      "ok": true,
+      "detail": "dirty flag cleared"
+    },
+    {
+      "id": "R6-15",
+      "desc": "no page errors during round 6",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

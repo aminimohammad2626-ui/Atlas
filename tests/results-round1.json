@@ -158,7 +158,7 @@
       "id": "R1-09b",
       "desc": "task auto-completed with result recorded",
       "ok": true,
-      "detail": "{\"status\":\"done\",\"completedAt\":\"2026-11-17T10:58:20.691Z\",\"progress\":100,\"upd\":1}"
+      "detail": "{\"status\":\"done\",\"completedAt\":\"2026-11-17T11:16:13.131Z\",\"progress\":100,\"upd\":1}"
     },
     {
       "id": "R1-09c",
@@ -182,7 +182,7 @@
       "id": "R1-12",
       "desc": "seed progress updates recorded",
       "ok": true,
-      "detail": "{\"id\":\"tsk-mwkkwprr-46w6p1\",\"updates\":1,\"progress\":60}"
+      "detail": "{\"id\":\"tsk-mwkljp92-eb5jlt\",\"updates\":1,\"progress\":60}"
     },
     {
       "id": "R1-13",

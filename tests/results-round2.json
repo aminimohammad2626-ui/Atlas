@@ -26,7 +26,7 @@
       "id": "R2-04",
       "desc": "embedded data has users with hashed passwords (no plaintext)",
       "ok": true,
-      "detail": "{\"id\":\"usr-mwkkx5jc-glt5ud\",\"seq\":1,\"username\":\"admin\",\"displayName\":\"مدیر سیستم\",\"salt\":\"s-mwkkx5hy"
+      "detail": "{\"id\":\"usr-mwklk51b-2jrkh1\",\"seq\":1,\"username\":\"admin\",\"displayName\":\"مدیر سیستم\",\"salt\":\"s-mwklk4zz"
     },
     {
       "id": "R2-04b",

@@ -23,6 +23,32 @@ const SaveSys = {
     return html.replace(re, (m, a, b, c) => a + content + c);
   },
 
+  /* --- File System Access: connect once per session, then save in place --- */
+
+  /* must be called from a user gesture (button click) */
+  async ensureHandle() {
+    if (!window.showSaveFilePicker) return 'unsupported';
+    if (this.fileHandle) {
+      try {
+        const perm = await this.fileHandle.queryPermission({ mode: 'readwrite' });
+        if (perm === 'granted') return 'ready';
+        if (await this.fileHandle.requestPermission({ mode: 'readwrite' }) === 'granted') return 'ready';
+        return 'denied';
+      } catch (e) { return 'denied'; }
+    }
+    try {
+      const h = await window.showSaveFilePicker({
+        suggestedName: 'Atlas.html',
+        types: [{ description: 'Atlas application', accept: { 'text/html': ['.html'] } }]
+      });
+      this.fileHandle = h;
+      return 'ready';
+    } catch (e) {
+      if (e && e.name === 'AbortError') return 'cancel';
+      return 'denied';
+    }
+  },
+
   async save(options) {
     options = options || {};
     try {
@@ -71,17 +97,6 @@ const SaveSys = {
       Store.persist();
       UI.updateSaveIndicator();
     }, interval);
-  },
-
-  pickFile() {
-    if (!window.showSaveFilePicker) return false;
-    const self = this;
-    window.showSaveFilePicker({
-      suggestedName: 'Atlas.html',
-      types: [{ description: 'Atlas application', accept: { 'text/html': ['.html'] } }]
-    }).then(h => { self.fileHandle = h; self.save(); })
-      .catch(e => { if (e && e.name !== 'AbortError') UI.toast(t('savePermissionDenied'), 'warn'); });
-    return true;
   },
 
   hasFsAccess() { return !!window.showSaveFilePicker; }

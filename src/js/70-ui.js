@@ -107,8 +107,9 @@ const UI = {
     const cls = Store.dirty ? 'dirty' : (SaveSys.lastSavedAt || Store.state.meta.lastPortableSave ? '' : '');
     el.className = 'save-indicator ' + cls;
     const when = Store.lastSavedAt || Store.state.meta.lastPortableSave;
+    const conn = SaveSys.fileHandle ? ' · ' + t('saveWithFs') : '';
     el.innerHTML = '<span class="dot"></span><span class="label">' +
-      (Store.dirty ? t('dirtyWarning') : (when ? t('lastSaved') + ': ' + this.fmtTS(when) : t('neverSaved'))) + '</span>';
+      (Store.dirty ? t('dirtyWarning') : (when ? t('lastSaved') + ': ' + this.fmtTS(when) : t('neverSaved'))) + conn + '</span>';
   },
 
   guard(viewId, op) {
@@ -159,7 +160,13 @@ const UI = {
     this.bindLayout();
     if (!guardBlock && view.bind) view.bind(this.route.params);
     this.updateSaveIndicator();
-    document.getElementById('btn-save-app').addEventListener('click', () => SaveSys.save());
+    document.getElementById('btn-save-app').addEventListener('click', () => {
+      if (!SaveSys.hasFsAccess()) { SaveSys.save(); return; }
+      SaveSys.ensureHandle().then(st => {
+        if (st === 'ready') SaveSys.save({ preventDownload: true });
+        else if (st === 'denied') SaveSys.save();
+      });
+    });
   },
 
   initials(name) {

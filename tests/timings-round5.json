@@ -1,12 +1,12 @@
 {
  "stress": {
   "createProjects": 2,
-  "createTasks": 90,
+  "createTasks": 87,
   "taskCount": 2010,
-  "renderTasks": 3,
-  "search": 1,
+  "renderTasks": 4,
+  "search": 0,
   "searchHits": 11,
   "report": 0,
-  "calendar": 3
+  "calendar": 4
  }
 }

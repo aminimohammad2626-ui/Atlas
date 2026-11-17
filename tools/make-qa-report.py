@@ -139,7 +139,7 @@ FEATURES = [
     ('Search, reports & exports', 'Permission-aware global search, filtered reports, CSV export in the active calendar system.'),
     ('Workflow engine', 'Configurable statuses, transitions and validation rules (e.g. required result summary on completion).'),
     ('Notifications', 'Assignment, deadline, comment and progress notifications with read state and permission-aware content.'),
-    ('Persistence', 'Autosave + manual save, embedded save producing a portable updated Atlas.html, save status indicator, localStorage only as cache.'),
+    ('Persistence', 'Autosave + manual save; embedded save producing a portable updated Atlas.html; in-place saving through the File System Access API (file connected once, then every save overwrites the same file with data embedded \u2014 verified via handle write path); download only as fallback; save status indicator; localStorage only as cache.'),
     ('Backup & restore', 'Full backups with metadata/inventory/checksum, 11-stage restore wizard, automatic recovery checkpoint, transactional restore with rollback, versioned migration engine.'),
     ('Patch Center', 'Validated JSON patch packages (integrity hash, compatibility, conflicts), staged install, schema migrations, auto-rollback, deactivate/reactivate, full history.'),
     ('i18n & themes', 'Complete FA (RTL, Jalali) and EN (LTR, Gregorian) dictionaries; 3 distinct themes; language switching never mutates stored dates.'),
@@ -259,10 +259,11 @@ def build():
 
     story.append(Paragraph('9. Remaining limitations', H2))
     for txt in [
-        'Silent self-overwrite of the running HTML file is blocked by browser security; Atlas therefore '
-        'uses the File System Access API where the browser supports it (user-authorized) and otherwise a '
-        'reliable download of the updated Atlas.html with data embedded. This is a platform limitation, '
-        'not an application defect.',
+        'Browsers only allow in-place self-overwrite through the File System Access API with explicit '
+        'user authorization (Chrome/Edge). Atlas connects the file with one click per session and then '
+        'saves in place; in browsers without the API (e.g. Firefox/Safari) it falls back to a reliable '
+        'download of the updated Atlas.html with data embedded. This is a platform limitation, not an '
+        'application defect.',
         'No real LDAP / Microsoft Active Directory integration is implemented or claimed; the AD-like '
         'experience is the internal identity & access management system, as required by the PRD.',
         'Attachments are stored as base64 within the state; very large binaries increase file size and '

@@ -3131,6 +3131,32 @@ const SaveSys = {
     return html.replace(re, (m, a, b, c) => a + content + c);
   },
 
+  /* --- File System Access: connect once per session, then save in place --- */
+
+  /* must be called from a user gesture (button click) */
+  async ensureHandle() {
+    if (!window.showSaveFilePicker) return 'unsupported';
+    if (this.fileHandle) {
+      try {
+        const perm = await this.fileHandle.queryPermission({ mode: 'readwrite' });
+        if (perm === 'granted') return 'ready';
+        if (await this.fileHandle.requestPermission({ mode: 'readwrite' }) === 'granted') return 'ready';
+        return 'denied';
+      } catch (e) { return 'denied'; }
+    }
+    try {
+      const h = await window.showSaveFilePicker({
+        suggestedName: 'Atlas.html',
+        types: [{ description: 'Atlas application', accept: { 'text/html': ['.html'] } }]
+      });
+      this.fileHandle = h;
+      return 'ready';
+    } catch (e) {
+      if (e && e.name === 'AbortError') return 'cancel';
+      return 'denied';
+    }
+  },
+
   async save(options) {
     options = options || {};
     try {
@@ -3179,17 +3205,6 @@ const SaveSys = {
       Store.persist();
       UI.updateSaveIndicator();
     }, interval);
-  },
-
-  pickFile() {
-    if (!window.showSaveFilePicker) return false;
-    const self = this;
-    window.showSaveFilePicker({
-      suggestedName: 'Atlas.html',
-      types: [{ description: 'Atlas application', accept: { 'text/html': ['.html'] } }]
-    }).then(h => { self.fileHandle = h; self.save(); })
-      .catch(e => { if (e && e.name !== 'AbortError') UI.toast(t('savePermissionDenied'), 'warn'); });
-    return true;
   },
 
   hasFsAccess() { return !!window.showSaveFilePicker; }
@@ -3371,8 +3386,9 @@ const UI = {
     const cls = Store.dirty ? 'dirty' : (SaveSys.lastSavedAt || Store.state.meta.lastPortableSave ? '' : '');
     el.className = 'save-indicator ' + cls;
     const when = Store.lastSavedAt || Store.state.meta.lastPortableSave;
+    const conn = SaveSys.fileHandle ? ' · ' + t('saveWithFs') : '';
     el.innerHTML = '<span class="dot"></span><span class="label">' +
-      (Store.dirty ? t('dirtyWarning') : (when ? t('lastSaved') + ': ' + this.fmtTS(when) : t('neverSaved'))) + '</span>';
+      (Store.dirty ? t('dirtyWarning') : (when ? t('lastSaved') + ': ' + this.fmtTS(when) : t('neverSaved'))) + conn + '</span>';
   },
 
   guard(viewId, op) {
@@ -3423,7 +3439,13 @@ const UI = {
     this.bindLayout();
     if (!guardBlock && view.bind) view.bind(this.route.params);
     this.updateSaveIndicator();
-    document.getElementById('btn-save-app').addEventListener('click', () => SaveSys.save());
+    document.getElementById('btn-save-app').addEventListener('click', () => {
+      if (!SaveSys.hasFsAccess()) { SaveSys.save(); return; }
+      SaveSys.ensureHandle().then(st => {
+        if (st === 'ready') SaveSys.save({ preventDownload: true });
+        else if (st === 'denied') SaveSys.save();
+      });
+    });
   },
 
   initials(name) {
